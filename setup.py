@@ -7,7 +7,7 @@ setup(
     version="1.0",
     description="Script para la automatizacion de documentos",
     author="autor",
-    author_email="nicolas@procdoc.com",
+    author_email="nicoarbar@github.com",
     url="procdoc.com",
     license="free",
     scripts=["doc_main.py"],
