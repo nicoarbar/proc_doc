@@ -1,8 +1,8 @@
+pandas
+os
+datetime
 python-docx
 xlwings
 docxtpl
 openpyxl
 py2exe
-aspose-words
-os
-datetime
