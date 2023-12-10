@@ -5,6 +5,6 @@ python-docx
 xlwings
 docxtpl
 openpyxl
-py2exe
+py2exe or pyinstaller
 time
 colorama

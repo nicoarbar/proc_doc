@@ -25,3 +25,4 @@ setup(
 )
 
 # .\setup.py py2exe
+# pyinstaller doc_main.py
