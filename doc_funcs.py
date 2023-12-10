@@ -1,6 +1,6 @@
 from pandas import *
 
-def model_choose():
+def model_choose(message):
     opt_dict = {
         '1': 'A1',
         '2': 'A2',
@@ -13,7 +13,7 @@ def model_choose():
     for k, v in opt_dict.items():
         print(v, ': ', k)
 
-    modelo = input('Elije el numero de modelo a procesar')
+    modelo = input(message)
     try:
         modelo_choose = opt_dict[modelo]
         print(f'Eljiste modelo {modelo_choose}')

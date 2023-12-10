@@ -7,3 +7,4 @@ docxtpl
 openpyxl
 py2exe
 time
+colorama

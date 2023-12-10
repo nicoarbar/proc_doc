@@ -1,16 +1,21 @@
+import colorama
+from colorama import Fore
 import time
 import os
 from datetime import datetime
 from docx import Document
 from doc_funcs import * 
 
+# Changing the color of the cmd shell of the executable file
+colorama.init()
+
 # Welcome and doc choose
-doc_model = model_choose()
+doc_model = model_choose(Fore.GREEN + 'Elije el numero de modelo a procesar')
 
 # Set the path of the app to load the docs
-doc_path = input_choose('Dime el nombre de la carpeta. Pulsa S o di si para usar valor default "proc_doc\\docs"')
-base_excel = input_choose('Dime el nombre del excel de base a usar. Pulsa S o di si para usar valor default "Excel Modelos FAB.xslx"')
-base_words = input_choose('Dime el nombre del word de base a usar. Pulsa S o di si para usar valor default "cierre instruccion procedimiento.docx"')
+doc_path = input_choose(Fore.GREEN + 'Dime el nombre de la carpeta. Pulsa S o di si para usar valor default "proc_doc\\docs"')
+base_excel = input_choose(Fore.GREEN + 'Dime el nombre del excel de base a usar. Pulsa S o di si para usar valor default "Excel Modelos FAB.xslx"')
+base_words = input_choose(Fore.GREEN + 'Dime el nombre del word de base a usar. Pulsa S o di si para usar valor default "cierre instruccion procedimiento.docx"')
 
 if base_excel in ['Si', 'S', 'si', 's', 'sI']:
     doc_path = 'proc_doc\\docs'
@@ -72,9 +77,9 @@ save_path = current_dir+f"\\{doc_model+' - '+tipo_a+' - '+demandante+' - '+deman
 
 try:
     doc.save(save_path)
-    print(f'Guardando el documento. Ya puedes verlo en la carpeta {current_dir}')
+    print(f'Guardando el documento. Lo veras en la carpeta {current_dir}')
 except Exception as e:
     print('No se puede guardar el documento por el error: ', e)
 
 # Sleeping app to make user see the interface and final message
-time.sleep(3)
+time.sleep(5)
