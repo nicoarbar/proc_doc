@@ -1,6 +1,6 @@
 from pandas import *
 
-def doc_choose():
+def model_choose():
     opt_dict = {
         '1': 'A1',
         '2': 'A2',
@@ -22,6 +22,10 @@ def doc_choose():
         print(f'No existe el modelo {modelo}')
     return modelo_choose
 
+def input_choose(message):
+    input_choose = input(message)
+    return input_choose
+
 def excel_to_json(excel_path):
     xls = ExcelFile(excel_path)
     df = xls.parse(xls.sheet_names[0]).astype(str)
@@ -35,3 +39,15 @@ def current_date_format(date):
     year = date.year
     messsage = "{} de {} de {}".format(day, month, year)
     return messsage
+
+def iterate_paragraphs_and_headers(doc, paragraphs, field, vals):
+    for par in paragraphs:
+        if field in par.text:
+            if len(vals) > 1:
+                par.text = par.text.replace(field, vals.pop(0))
+                for val in vals:
+                    new_par = doc.add_paragraph()
+                    new_par.add_run(val)
+            else:
+                par.text = par.text.replace(field, vals[0])
+    return doc
