@@ -17,7 +17,7 @@ doc_path = input_choose(Fore.GREEN + 'Dime el nombre de la carpeta. Pulsa S o di
 base_excel = input_choose(Fore.GREEN + 'Dime el nombre del excel de base a usar. Pulsa S o di si para usar valor default "Excel Modelos FAB.xslx"')
 base_words = input_choose(Fore.GREEN + 'Dime el nombre del word de base a usar. Pulsa S o di si para usar valor default "cierre instruccion procedimiento.docx"')
 
-if base_excel in ['Si', 'S', 'si', 's', 'sI']:
+if doc_path in ['Si', 'S', 'si', 's', 'sI']:
     doc_path = 'proc_doc\\docs'
 if base_excel in ['Si', 'S', 'si', 's', 'sI']:
     base_excel = 'Excel Modelos FAB'

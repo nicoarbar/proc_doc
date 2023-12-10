@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+import colorama
+from colorama import Fore
+import time
+import os
+from datetime import datetime
+from docx import Document
+from doc_funcs import * 
 from distutils.core import setup
 import py2exe
 
@@ -12,7 +19,8 @@ setup(
     license="free",
     scripts=["doc_main.py"],
     console=["doc_main.py"],
-    options={"py2exe": {"bundle_files": 1}},
+    options={"py2exe": {"bundle_files": 1, 'compressed': True}},
+    #windows = [{'script': "doc_main.py"}],
     zipfile=None,
 )
 
