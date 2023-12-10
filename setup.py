@@ -16,5 +16,4 @@ setup(
     zipfile=None,
 )
 
-# TODO 
 # .\setup.py py2exe
