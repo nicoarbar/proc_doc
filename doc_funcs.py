@@ -1,5 +1,11 @@
 from pandas import *
 import colorama
+from colorama import Fore
+import os
+import time
+
+# Changing the color of the cmd shell of the executable file
+colorama.init()
 
 def model_choose(message):
     opt_dict = {
@@ -13,15 +19,14 @@ def model_choose(message):
     }
     for k, v in opt_dict.items():
         print(v, ': ', k)
-    # Changing the color of the cmd shell of the executable file
-    colorama.init()
+
     modelo = input(message)
     try:
         modelo_choose = opt_dict[modelo]
         print(f'Eljiste modelo {modelo_choose}')
     except KeyError:
-        modelo_choose = modelo
         print(f'No existe el modelo {modelo}')
+        modelo_choose = model_choose(message)
     return modelo_choose
 
 def input_choose(message):
@@ -53,3 +58,35 @@ def iterate_paragraphs_and_headers(doc, paragraphs, field, vals):
             else:
                 par.text = par.text.replace(field, vals[0])
     return doc
+
+def doc_choose(current_dir, doc_name, doc_type):
+    base_words = input_choose(Fore.GREEN + f'Dime el nombre del {doc_type} de base a usar. Pulsa Si para "{doc_name}"')
+    if base_words in ['Si', 'S', 'si', 's', 'sI']:
+        base_words = doc_name
+    return current_dir + f"\\{base_words}"
+
+def open_doc(current_dir, doc_name, doc_type, doc_func):
+    # Path settings and reading Word template
+    try:
+        # Setting the path of the chosen doc
+        doc_path = doc_choose(current_dir, doc_name, doc_type)
+        # Checking if the doc exists
+        if not os.path.isfile(doc_path):
+            raise FileNotFoundError
+        doc_object = doc_func(doc_path)
+    except FileNotFoundError:
+        print(f'No se encuentra el archivo Word que dices en la ruta {doc_path}')
+        doc_object = open_doc(current_dir, doc_name, doc_type, doc_func)
+    return doc_object
+
+def raise_exception(message):
+    print(message)
+    time.sleep(5)
+    raise Exception(message)
+
+def num_to_str_fields(numeric_field):
+    try:
+        str_field = int(float(numeric_field))
+    except Exception as e:
+        raise_exception(f'Falla la limpieza del excel por el error: {e}')
+    return str_field
