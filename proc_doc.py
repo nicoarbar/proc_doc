@@ -14,8 +14,8 @@ doc_model = model_choose(Fore.GREEN + 'Elije el numero de modelo a procesar')
 
 # Set the path of the app to load the docs
 doc_path = input_choose(Fore.GREEN + 'Dime el nombre de la carpeta. Pulsa S o di si para usar valor default "proc_doc\\docs"')
-base_excel = input_choose(Fore.GREEN + 'Dime el nombre del excel de base a usar. Pulsa S o di si para usar valor default "Excel Modelos FAB.xslx"')
-base_words = input_choose(Fore.GREEN + 'Dime el nombre del word de base a usar. Pulsa S o di si para usar valor default "cierre instruccion procedimiento.docx"')
+base_excel = input_choose(Fore.GREEN + 'Dime el nombre del excel de base a usar. Pulsa S para "Excel Modelos FAB.xslx"')
+base_words = input_choose(Fore.GREEN + 'Dime el nombre del word de base a usar. Pulsa S para "cierre instruccion procedimiento.docx"')
 
 if doc_path in ['Si', 'S', 'si', 's', 'sI']:
     doc_path = 'proc_doc\\docs'
