@@ -1,0 +1,5 @@
+- raise error si ficheros base no existen
+- tinker - interfaz grafica para el usuario
+- varias filas insertarlas en el documento
+- linkar con otros documentos
+- estrategia para standarizar automatizacion para cualquier documento legal
