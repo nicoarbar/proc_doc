@@ -2,9 +2,11 @@ pandas
 os
 datetime
 python-docx
-xlwings
-docxtpl
 openpyxl
-py2exe or pyinstaller
+pyinstaller
 time
 colorama
+pyinstaller `
+--onefile `
+--exclude pytz `
+--paths C:\\Users\\borom\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages proc_doc.py 

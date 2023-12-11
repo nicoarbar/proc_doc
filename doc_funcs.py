@@ -1,4 +1,5 @@
 from pandas import *
+import colorama
 
 def model_choose(message):
     opt_dict = {
@@ -12,7 +13,8 @@ def model_choose(message):
     }
     for k, v in opt_dict.items():
         print(v, ': ', k)
-
+    # Changing the color of the cmd shell of the executable file
+    colorama.init()
     modelo = input(message)
     try:
         modelo_choose = opt_dict[modelo]
