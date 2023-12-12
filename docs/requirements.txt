@@ -6,7 +6,6 @@ openpyxl
 pyinstaller
 time
 colorama
-pyinstaller `
---onefile `
---exclude pytz `
+pyinstaller --onefile `
 --paths C:\\Users\\borom\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages proc_doc.py 
+proc_doc.exe 2> errores.txt

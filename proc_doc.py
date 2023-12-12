@@ -73,4 +73,4 @@ except Exception as e:
     raise_exception(f'No se puede guardar el documento por el error: {e}')
 
 # Sleeping app to make user see the interface and final message
-time.sleep(5)
+time.sleep(3)

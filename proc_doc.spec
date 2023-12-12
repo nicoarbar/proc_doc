@@ -10,7 +10,7 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['pytz'],
+    excludes=[],
     noarchive=False,
 )
 pyz = PYZ(a.pure)
