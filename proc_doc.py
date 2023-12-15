@@ -11,6 +11,7 @@ current_dir = os.getcwd()
 doc_model = model_choose(Fore.GREEN + 'Elije el numero de modelo a procesar')
 
 # Path settings and reading Word and Excel template
+print('Recuerda cerrar las plantillas de los documentos primero')
 doc = open_doc(current_dir, 'cierre instruccion procedimiento.docx', 'Word', Document)
 print('Abriendo la plantilla Word')
 excel_dict = open_doc(current_dir, 'Excel Modelos FAB.xlsx', 'Excel', excel_to_json)
@@ -59,12 +60,7 @@ except Exception as e:
     raise_exception(f'El documento esta mal formateado por el error: {e}')
 
 # Save the document
-save_path = current_dir \
-    + f"\\{doc_model + ' - ' \
-    + excel_dict['TIPO_A'][0] + ' - ' \
-    + excel_dict['NOMBRE_DEMANDANTE'][0] + ' - ' \
-    + excel_dict['NOMBRE_DEMANDADA'][0] + ' - ' \
-    + current_date}.docx"
+save_path = current_dir + f"\\{doc_model + ' - ' + excel_dict['TIPO_A'][0] + ' - ' + excel_dict['NOMBRE_DEMANDANTE'][0] + ' - ' + excel_dict['NOMBRE_DEMANDADA'][0] + ' - ' + current_date}.docx"
 
 try:
     doc.save(save_path)

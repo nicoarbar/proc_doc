@@ -75,7 +75,13 @@ def open_doc(current_dir, doc_name, doc_type, doc_func):
             raise FileNotFoundError
         doc_object = doc_func(doc_path)
     except FileNotFoundError:
-        print(f'No se encuentra el archivo Word que dices en la ruta {doc_path}')
+        print(f'No se encuentra el archivo Word que dices en la ruta: {doc_path}')
+        doc_object = open_doc(current_dir, doc_name, doc_type, doc_func)
+    except PermissionError:
+        print(f'Primero cierra el documento que lo tienes abierto: {doc_path}')
+        doc_object = open_doc(current_dir, doc_name, doc_type, doc_func)
+    except PackageNotFoundError:
+        print(f'Primero cierra el documento que lo tienes abierto: {doc_path}')
         doc_object = open_doc(current_dir, doc_name, doc_type, doc_func)
     return doc_object
 
