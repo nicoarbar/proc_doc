@@ -50,7 +50,6 @@ except Exception as e:
     raise_exception(f'Falla la limpieza del excel por el error: {e}')
 
 # Replacing the words in the doc
-print('Reemplazando las variables')
 try:
     header = doc.sections[0].header
     for field, vals in clean_dict.items():
