@@ -3,7 +3,7 @@
 
 a = Analysis(
     ['proc_doc.py'],
-    pathex=['C:\\\\Users\\\\borom\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\Lib\\\\site-packages'],
+    pathex=['C:\\\\Users\\\\2131239\\\\appData\\\\local\\\\programs\\\\python\\\\python310\\\\lib\\\\site-packages'],
     binaries=[],
     datas=[],
     hiddenimports=[],

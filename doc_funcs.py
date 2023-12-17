@@ -51,10 +51,11 @@ def iterate_paragraphs_and_headers(doc, paragraphs, field, vals):
     for par in paragraphs:
         if field in par.text:
             if len(vals) > 1:
-                par.text = par.text.replace(field, vals.pop(0))
-                for val in vals:
-                    new_par = doc.add_paragraph()
-                    new_par.add_run(val)
+                par.text = par.text.replace(field, '\n'.join(vals))
+                #par.text = par.text.replace(field, vals.pop(0))
+                #for val in vals:
+                #    new_par = doc.add_paragraph()
+                #    new_par.add_run(val)
             else:
                 par.text = par.text.replace(field, vals[0])
     return doc
@@ -78,9 +79,6 @@ def open_doc(current_dir, doc_name, doc_type, doc_func):
         print(f'No se encuentra el archivo Word que dices en la ruta: {doc_path}')
         doc_object = open_doc(current_dir, doc_name, doc_type, doc_func)
     except PermissionError:
-        print(f'Primero cierra el documento que lo tienes abierto: {doc_path}')
-        doc_object = open_doc(current_dir, doc_name, doc_type, doc_func)
-    except PackageNotFoundError:
         print(f'Primero cierra el documento que lo tienes abierto: {doc_path}')
         doc_object = open_doc(current_dir, doc_name, doc_type, doc_func)
     return doc_object
