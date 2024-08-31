@@ -8,5 +8,5 @@ with open("templates/index.html", 'r', encoding='utf-8') as html_file:
     html_content = html_file.read()
 
 # Render the HTML file in Streamlit
-st.title("Render HTML in Streamlit")
-components.html(html_content, height=600)
+st.title("Welcome to Proc Doc")
+components.html(html_content, height=1600)
