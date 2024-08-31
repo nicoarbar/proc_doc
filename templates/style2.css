@@ -1,0 +1,48 @@
+
+
+
+body{
+    background-color: #000000;
+    color: #06FF00;
+    font-family: Consolas, normal
+}
+h1{
+    color: #FF7A5A;
+    font-family: Consolas;
+}
+h3{
+    color: cyan;
+    font-family: Consolas;
+}
+h5{
+    color: #7045FF;
+    font-family: Consolas;
+}
+h4{
+    color: #FF7A5A;
+    font-family: Consolas;
+}
+em{
+    color: #7045FF;
+    font-family: Consolas;
+}
+hr {
+    background-color: cyan;
+    border-style: none;
+    height: 1px
+}
+img {
+    border-radius: 100%;
+}
+
+.tabletitle{
+    width: 50%;
+    margin: auto;
+    position: relative;
+}
+.purp{
+    color: #06FF00;
+    --width: 50%;
+    -- margin: auto;
+    position: relative;
+}
