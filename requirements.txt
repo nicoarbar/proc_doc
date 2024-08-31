@@ -1,10 +1,4 @@
 pandas
-os
-datetime
-python-docx
-openpyxl
-pyinstaller
-time
 colorama
 Flask
 streamlit
