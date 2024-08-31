@@ -22,6 +22,10 @@ h4{
     color: #FF7A5A;
     font-family: Consolas;
 }
+h45{
+    color: cyan;
+    font-family: Consolas;
+}
 em{
     color: #7045FF;
     font-family: Consolas;
@@ -29,20 +33,20 @@ em{
 hr {
     background-color: cyan;
     border-style: none;
-    height: 1px
+    height: 1px;
 }
 img {
     border-radius: 100%;
 }
 
 .tabletitle{
-    width: 50%;
+    width: 35%;
     margin: auto;
-    position: relative;
+    position: center;
 }
 .purp{
     color: #06FF00;
-    --width: 50%;
-    -- margin: auto;
-    position: relative;
+    width: 35%;
+    margin: auto;
+    position: center
 }
