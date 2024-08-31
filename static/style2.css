@@ -33,7 +33,8 @@ em{
 hr {
     background-color: cyan;
     border-style: none;
-    height: 1px;
+    height: 2px;
+    margin-left: 0;
 }
 img {
     border-radius: 100%;
