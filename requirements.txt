@@ -1,4 +1,2 @@
 pandas
-colorama
-Flask
 streamlit
