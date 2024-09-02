@@ -20,20 +20,20 @@ with st.sidebar:
     st.title('About')
     tab1, tab2, tab3, tab4 = st.tabs(["Developer", "Pricing", "Issues", "Beta"])
     with tab1:
-        st.warning("This app is developed here as an Open Source project:")
+        st.info("This app is developed here as an Open Source project:")
         tab1.write("https://nicoarbar.github.io/proc_doc/")  
     with tab2:
-        st.warning("Being an Open Source project you are welcome to contribute with donations as a Github Sponsor here:")
+        st.info("Being an Open Source project you are welcome to contribute with donations as a Github Sponsor here:")
         st.write("https://github.com/nicoarbar/proc_doc")
-        st.warning("Or you can buy me a coffee here:")
+        st.info("Or you can buy me a coffee here:")
         st.write("https://buymeacoffee.com/")
-        st.warning("Or thank me here:")
+        st.info("Or thank me here:")
         st.write("https://thanks.dev/home")
     with tab3:
-        st.warning("For any inquiries, issues, changes and feature requests please reach out here:")
+        st.info("For any inquiries, issues, changes and feature requests please reach out here:")
         st.write("https://github.com/nicoarbar/proc_doc/issues")
     with tab4:
-        st.warning("""Proc Doc is under construction""")
+        st.info("""Proc Doc is under construction""")
         st.markdown("""
         **Features under construction:**
         - Ask GPT
@@ -73,32 +73,34 @@ elif action == 'Format docs with parameters':
     action_params = st.radio('Choose:', ['Input parameters manually', 'Upload csv file with parameters'])
 
     if action_params == 'Input parameters manually':
-        st.info('Update the parameters')
+        st.warning('Update the parameters (autosave)')
         df = pd.DataFrame(columns=['Parameters', 'Value'])
         updf = st.data_editor(data=df, hide_index=True, num_rows="dynamic")
     else:
         df = streamlit_upload('Upload csv file', 'Update the parameters', pd.read_csv)
         if df is not None:
             updf = st.data_editor(data=df, hide_index=True, num_rows="dynamic")
-    
-    #Press saving parameters
-    streamlit_button('Save parameters', 1, on_click=None)
 
     #Template doc
     st.subheader('Upload your document to format')
     doc_content = streamlit_upload('Upload document', 'File uploaded correctly', read_docx)
     
     #Press Process
+    #TODO
     st.subheader('Process the documents')
     streamlit_button('Format the documents', 1, on_click=None)
+    
 
     #Finish
     st.subheader('Finish')
     tab1, tab2 = st.tabs(['Download processed document','Display processed document'])
+    proc_doc_file = 'TODO'
     with tab1:
         #Press download
-        streamlit_button('Download document', 1, on_click=None)
+        proc_doc_filename = st.text_input('Enter name of the file to be downloaded')
+        if proc_doc_file is not None:
+            st.download_button('Download document', proc_doc_file, file_name=proc_doc_filename)
     with tab2:
         #Display document
-        if doc_content is not None:
-            st.text(doc_content)
+        if proc_doc_file is not None:
+            st.text(proc_doc_file)
