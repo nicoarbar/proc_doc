@@ -1,14 +1,9 @@
 from pandas import *
-import colorama
-from colorama import Fore
 import os
 import time
 import csv
 from docx import Document
 import streamlit as st
-
-# Changing the color of the cmd shell of the executable file
-colorama.init()
 
 def model_choose(message):
     opt_dict = {
