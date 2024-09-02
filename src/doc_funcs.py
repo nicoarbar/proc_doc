@@ -3,6 +3,9 @@ import colorama
 from colorama import Fore
 import os
 import time
+import csv
+from docx import Document
+import streamlit as st
 
 # Changing the color of the cmd shell of the executable file
 colorama.init()
@@ -94,3 +97,34 @@ def num_to_str_fields(numeric_field):
     except Exception as e:
         raise_exception(f'Falla la limpieza del excel por el error: {e}')
     return str_field
+
+def read_csv_as_rows(filename):
+    with open(filename, mode='r') as file:
+        csv_reader = csv.reader(file)
+        for row in csv_reader:
+            print(row)
+
+def read_docx(file):
+    doc = Document(file)
+    content = []
+    for para in doc.paragraphs:
+        content.append(para.text)
+    return '\n'.join(content)
+
+def streamlit_button(button_name, sleep, on_click=None, type='secondary', disabled=False):
+    press_process = st.button(button_name, on_click=on_click, type=type, disabled=disabled)
+    if press_process:
+        with st.spinner(text='In progress'):
+            time.sleep(sleep)
+            st.success('Done')
+
+def on_button_click():
+    return True
+
+def streamlit_upload(label, success, doc_func):
+    doc_content =None
+    doc = st.file_uploader(label)
+    if doc is not None:
+        doc_content = doc_func(doc)
+        st.success(success)
+    return doc_content
