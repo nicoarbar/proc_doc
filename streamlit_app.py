@@ -10,8 +10,9 @@ st.caption("""Proc Doc allows you to input documents and
 #Selection of Action
 with st.sidebar:
     st.title('What do you want to do?')
-    action = st.radio('Choose:', 
-                      ['Format docs with parameters', 
+    action = st.radio('', 
+                      ['',
+                      'Format docs with parameters', 
                       'Ask GPT', 
                       'Index docs for info retrieval', 
                       'Other'])
@@ -49,6 +50,9 @@ with st.sidebar:
 st.info(action)
 
 #Actions
+if action == '':
+    st.header('What do you want to do?')
+
 if action == 'Index docs for info retrieval':
     st.error('Feature under construction')
 
