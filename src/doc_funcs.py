@@ -114,7 +114,7 @@ def streamlit_button(button_name, sleep, on_click=None, type='secondary', disabl
             st.success('Done')
 
 def on_button_click():
-    return True
+    return 'Hello World'
 
 def streamlit_upload(label, success, doc_func):
     doc_content =None

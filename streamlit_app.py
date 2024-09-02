@@ -1,21 +1,20 @@
 import pandas as pd
+from datetime import datetime
 from src.doc_funcs import *
 
 #Title
 st.title("Proc Doc")
 st.text("Welcome to simple automatic document processing")
-st.caption("""Proc Doc allows you to input documents and 
-           automate the process of formatting them with parameters of your choice.""")
+st.caption("Proc Doc allows you to input documents and automate the process of formatting them with parameters of your choice.")
 
 #Selection of Action
 with st.sidebar:
     st.title('What do you want to do?')
     action = st.radio('', 
-                      ['',
-                      'Format docs with parameters', 
+                      ['Format docs with parameters', 
                       'Ask GPT', 
-                      'Index docs for info retrieval', 
-                      'Other'])
+                      'Index docs for info retrieval'],
+                      label_visibility= 'collapsed')
 #About
 with st.sidebar:
     st.title('About')
@@ -24,12 +23,8 @@ with st.sidebar:
         st.info("This app is developed here as an Open Source project:")
         tab1.write("https://nicoarbar.github.io/proc_doc/")  
     with tab2:
-        st.info("Being an Open Source project you are welcome to contribute with donations as a Github Sponsor here:")
+        st.info("As an Open Source project you are welcome to contribute with donations as a Github Sponsor here:")
         st.write("https://github.com/nicoarbar/proc_doc")
-        st.info("Or you can buy me a coffee here:")
-        st.write("https://buymeacoffee.com/")
-        st.info("Or thank me here:")
-        st.write("https://thanks.dev/home")
     with tab3:
         st.info("For any inquiries, issues, changes and feature requests please reach out here:")
         st.write("https://github.com/nicoarbar/proc_doc/issues")
@@ -50,16 +45,8 @@ with st.sidebar:
 st.info(action)
 
 #Actions
-if action == '':
-    st.header('What do you want to do?')
-
 if action == 'Index docs for info retrieval':
     st.error('Feature under construction')
-
-elif action == 'Other':
-    st.multiselect('Multiselect', [1,2,3])
-    st.text_input('Enter some text')
-    st.date_input('Date input')
 
 elif action == 'Ask GPT':
     with st.chat_message("user"):
@@ -74,7 +61,8 @@ elif action == 'Format docs with parameters':
     
     #Params doc
     st.subheader('Choose parameters from a template or input them')
-    action_params = st.radio('Choose:', ['Input parameters manually', 'Upload csv file with parameters'])
+    action_params = st.radio('', ['Input parameters manually', 'Upload csv file with parameters'],
+                             label_visibility= 'collapsed')
 
     if action_params == 'Input parameters manually':
         st.warning('Update the parameters (autosave)')
@@ -85,10 +73,25 @@ elif action == 'Format docs with parameters':
         if df is not None:
             updf = st.data_editor(data=df, hide_index=True, num_rows="dynamic")
 
+    #Date
+    st.subheader('Choose a date')
+    date_doc = current_date_format(datetime.now())
+    action_date = st.radio('', 
+                           [f'Choose current date in spanish: **{date_doc}**', 
+                            'Input date from calendar', 
+                            'Input your own date format'], 
+                            label_visibility= 'collapsed')
+    if action_date == 'Input date from calendar':
+        date_doc = st.date_input('Date')
+    elif action_date == 'Input your own date format':
+        date_doc = st.text_input('Input your own date format')
+    else:
+        date_doc = current_date_format(datetime.now())
+
     #Template doc
     st.subheader('Upload your document to format')
     doc_content = streamlit_upload('Upload document', 'File uploaded correctly', read_docx)
-    
+
     #Press Process
     #TODO
     st.subheader('Process the documents')
