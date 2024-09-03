@@ -3,11 +3,15 @@ from datetime import datetime
 from src.doc_funcs import *
 
 #Config page
+menu_items={
+    'About': 'https://nicoarbar.github.io/proc_doc/',
+    'Report a bug': 'https://github.com/nicoarbar/proc_doc/issues'
+}
 st.set_page_config(page_title='Proc Doc', 
                    page_icon='static/proc_doc.png', 
                    layout="wide", 
-                   initial_sidebar_state="auto", 
-                   menu_items=None)
+                   initial_sidebar_state="expanded", 
+                   menu_items=menu_items)
 
 #Title
 st.title("Proc Doc")
