@@ -2,6 +2,13 @@ import pandas as pd
 from datetime import datetime
 from src.doc_funcs import *
 
+#Config page
+st.set_page_config(page_title='Proc Doc', 
+                   page_icon='static/proc_doc.png', 
+                   layout="wide", 
+                   initial_sidebar_state="auto", 
+                   menu_items=None)
+
 #Title
 st.title("Proc Doc")
 st.text("Welcome to simple automatic document processing")
