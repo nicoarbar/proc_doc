@@ -9,6 +9,7 @@ def index():
 @app.route('/nico')
 def home_nico():
     return "Hello, Nico!"
+
 @app.route('/templates')
 
 def home_nico():
