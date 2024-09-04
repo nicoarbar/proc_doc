@@ -106,16 +106,6 @@ def read_docx(file):
         content.append(para.text)
     return '\n'.join(content)
 
-def streamlit_button(button_name, sleep, on_click=None, type='secondary', disabled=False):
-    press_process = st.button(button_name, on_click=on_click, type=type, disabled=disabled)
-    if press_process:
-        with st.spinner(text='In progress'):
-            time.sleep(sleep)
-            st.success('Done')
-
-def on_button_click():
-    return 'Hello World'
-
 def streamlit_upload(label, success, doc_func):
     doc_content =None
     doc = st.file_uploader(label)

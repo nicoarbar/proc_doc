@@ -8,24 +8,16 @@ menu_items={
     'Report a bug': 'https://github.com/nicoarbar/proc_doc/issues'
 }
 st.set_page_config(page_title='Proc Doc', 
-                   page_icon='static/proc_doc.png', 
+                   page_icon='static/pd32.png', 
                    layout="wide", 
                    initial_sidebar_state="expanded", 
                    menu_items=menu_items)
 
 #Title
 st.title("Proc Doc")
-st.text("Welcome to simple automatic document processing")
 st.caption("Proc Doc allows you to input documents and automate the process of formatting them with parameters of your choice.")
+st.header("Start")
 
-#Selection of Action
-with st.sidebar:
-    st.title('What do you want to do?')
-    action = st.radio('', 
-                      ['Format docs with parameters', 
-                      'Ask GPT', 
-                      'Index docs for info retrieval'],
-                      label_visibility= 'collapsed')
 #About
 with st.sidebar:
     st.title('About')
@@ -53,13 +45,13 @@ with st.sidebar:
         """) 
 
 #Show selection
-st.info(action)
+tab11, tab12, tab13= st.tabs(["Format docs with parameters", "Ask GPT", "Index docs for info retrieval"])
 
 #Actions
-if action == 'Index docs for info retrieval':
+with tab13:
     st.error('Feature under construction')
 
-elif action == 'Ask GPT':
+with tab12:
     with st.chat_message("user"):
         st.write("Ask GPT")
         prompt = st.chat_input("Say something")
@@ -68,10 +60,10 @@ elif action == 'Ask GPT':
         else:
             st.error(f"Feature under construction.")
 
-elif action == 'Format docs with parameters':
+with tab11:
     
     #Params doc
-    st.subheader('Choose parameters from a template or input them')
+    st.subheader('1. Choose parameters from a template or input them')
     action_params = st.radio('', ['Input parameters manually', 'Upload csv file with parameters'],
                              label_visibility= 'collapsed')
 
@@ -79,13 +71,21 @@ elif action == 'Format docs with parameters':
         st.warning('Update the parameters (autosave)')
         df = pd.DataFrame(columns=['Parameters', 'Value'])
         updf = st.data_editor(data=df, hide_index=True, num_rows="dynamic")
+    
+        disabled = True
+        if len(updf) > 1:
+            disabled = False
+        down = st.button('Download template', disabled = disabled)
+        if down:
+            updf.to_csv('proc_doc_template_parameters.csv', index=False)
+            st.success('Done')
     else:
         df = streamlit_upload('Upload csv file', 'Update the parameters', pd.read_csv)
         if df is not None:
             updf = st.data_editor(data=df, hide_index=True, num_rows="dynamic")
 
     #Date
-    st.subheader('Choose a date')
+    st.subheader('2. Choose a date')
     date_doc = current_date_format(datetime.now())
     action_date = st.radio('', 
                            [f'Choose current date in spanish: **{date_doc}**', 
@@ -100,24 +100,27 @@ elif action == 'Format docs with parameters':
         date_doc = current_date_format(datetime.now())
 
     #Template doc
-    st.subheader('Upload your document to format')
+    st.subheader('3. Upload your document to format')
     doc_content = streamlit_upload('Upload document', 'File uploaded correctly', read_docx)
 
     #Press Process
-    #TODO
-    st.subheader('Process the documents')
-    streamlit_button('Format the documents', 1, on_click=None)
+    st.subheader('4. Process the documents')
+    disabled = True
+    if doc_content is not None:
+        disabled = False
+    st.button('Process the documents', on_click=st.text('HI NICO'), disabled=disabled)
     
-
     #Finish
-    st.subheader('Finish')
+    st.subheader('5. Finish')
     tab1, tab2 = st.tabs(['Download processed document','Display processed document'])
     proc_doc_file = 'TODO'
     with tab1:
         #Press download
+        disabled = True
         proc_doc_filename = st.text_input('Enter name of the file to be downloaded')
-        if proc_doc_file is not None:
-            st.download_button('Download document', proc_doc_file, file_name=proc_doc_filename)
+        if len(proc_doc_filename) > 1:
+            disabled = False
+        st.download_button('Download document', proc_doc_file, file_name=proc_doc_filename, disabled = disabled)
     with tab2:
         #Display document
         if proc_doc_file is not None:
