@@ -1,6 +1,7 @@
 import pandas as pd
 from datetime import datetime
 from src.doc_funcs import *
+from io import StringIO
 
 #Config page
 menu_items={
@@ -72,13 +73,17 @@ with tab11:
         df = pd.DataFrame(columns=['Parameters', 'Value'])
         updf = st.data_editor(data=df, hide_index=True, num_rows="dynamic")
     
+        # Download template
         disabled = True
         if len(updf) > 1:
             disabled = False
-        down = st.button('Download template', disabled = disabled)
-        if down:
-            updf.to_csv('proc_doc_template_parameters.csv', index=False)
-            st.success('Done')
+
+        csv_buffer = StringIO()
+        updf.to_csv(csv_buffer, index=False)
+        csv_string = csv_buffer.getvalue()
+
+        st.download_button('Download template', csv_string, file_name='proc_doc_template.csv', disabled = disabled)
+
     else:
         df = streamlit_upload('Upload csv file', 'Update the parameters', pd.read_csv)
         if df is not None:
@@ -105,23 +110,29 @@ with tab11:
 
     #Press Process
     st.subheader('4. Process the documents')
-    disabled = True
+    disabled_process = True
     if doc_content is not None:
-        disabled = False
-    st.button('Process the documents', on_click=st.text('HI NICO'), disabled=disabled)
-    
+        disabled_process = False
+    press_process = st.button('Process the documents', disabled=disabled_process)
+
+    #TODO
+    if press_process:
+        doc_content1 = 'test'
+    else:
+        doc_content1 = 'error'
+
+
     #Finish
     st.subheader('5. Finish')
-    tab1, tab2 = st.tabs(['Download processed document','Display processed document'])
-    proc_doc_file = 'TODO'
-    with tab1:
-        #Press download
-        disabled = True
-        proc_doc_filename = st.text_input('Enter name of the file to be downloaded')
-        if len(proc_doc_filename) > 1:
-            disabled = False
-        st.download_button('Download document', proc_doc_file, file_name=proc_doc_filename, disabled = disabled)
-    with tab2:
-        #Display document
-        if proc_doc_file is not None:
-            st.text(proc_doc_file)
+    # Display document
+    press_display = st.button('Display document', disabled=disabled_process)
+    if press_display:
+        st.success(doc_content1)
+
+    # Download document
+    disabled_down = True
+    proc_doc_filename = st.text_input('Enter name of the file to be downloaded')
+    if len(proc_doc_filename) > 1:
+        disabled_down = False
+    if doc_content1 is not None:
+        st.download_button('Download document', doc_content1, file_name=proc_doc_filename, disabled = disabled_down)
