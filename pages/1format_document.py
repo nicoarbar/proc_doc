@@ -8,9 +8,10 @@ from io import StringIO
 st.set_page_config(page_title='Proc Doc Format', 
                    page_icon='static/pd32.png', 
                    layout="wide")
+st.logo("static/pd32.png", icon_image="static/pd32.png")
 
 #Title
-st.title("Doc Formatting")
+st.title("Format Document")
     
 #Params doc
 st.subheader('1. Choose parameters from a template or input them')
