@@ -26,15 +26,5 @@ st.page_link('pages/2ask_gpt.py', label = '        Ask Gpt', icon=":material/for
 st.page_link('pages/3indexing_documents.py', label = '       Index Documents', icon=":material/folder_open:")
 
 #About
-with st.sidebar:
-    st.subheader('About')
-    tab1, tab2, tab3 = st.tabs(["Developer", "Pricing", "Issues"])
-    with tab1:
-        st.info("This app is developed here as an Open Source project:")
-        tab1.write("https://nicoarbar.github.io/proc_doc/")  
-    with tab2:
-        st.info("As an Open Source project you are welcome to contribute with donations as a Github Sponsor here:")
-        st.write("https://github.com/nicoarbar/proc_doc")
-    with tab3:
-        st.info("For any inquiries, issues, changes and feature requests please reach out here:")
-        st.write("https://github.com/nicoarbar/proc_doc/issues")
+st.subheader('About')
+st.page_link('pages/4info.py', label = '       Info', icon=":material/info:")
