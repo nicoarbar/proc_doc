@@ -11,20 +11,20 @@ st.set_page_config(page_title='Proc Doc Home',
                    initial_sidebar_state="auto", 
                    menu_items=menu_items)
 
-#st.session_state.
+#Logo
 st.logo("static/pd32.png", icon_image="static/pd32.png")
 
-#Title
-st.title("Proc Doc")
-st.text("Welcome to automatic document processing")
-st.caption("Proc Doc allows you to input documents and automate the process of formatting them with parameters of your choice.")
+pages = {
+    "Home": [st.Page("pages/5home.py", title="Home", icon=":material/home:")],
+    "Start": [
+        st.Page("pages/1format_document.py", title="Format Document", icon=":material/file_open:"),
+        st.Page("pages/2ask_gpt.py", title="Ask Gpt", icon=":material/forum:"),
+        st.Page("pages/3indexing_documents.py", title="Index Documents", icon=":material/folder_open:")
+    ],
+    "About": [
+        st.Page("pages/4info.py", title="Learn about us", icon=":material/info:")
+    ]
+}
 
-#Start
-st.subheader('Start')
-st.page_link('pages/1format_document.py', label = '     Format Document', icon=":material/file_open:")
-st.page_link('pages/2ask_gpt.py', label = '        Ask Gpt', icon=":material/forum:")
-st.page_link('pages/3indexing_documents.py', label = '       Index Documents', icon=":material/folder_open:")
-
-#About
-st.subheader('About')
-st.page_link('pages/4info.py', label = '       Info', icon=":material/info:")
+pg = st.navigation(pages)
+pg.run()

@@ -1,4 +1,5 @@
 import streamlit as st
+st.title("Proc Doc")
 st.header('About')
 tab1, tab2, tab3 = st.tabs(["Developer", "Pricing", "Issues"])
 with tab1:

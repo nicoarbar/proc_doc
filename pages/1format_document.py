@@ -4,14 +4,16 @@ from src.doc_funcs import *
 from io import StringIO
 
 #Config page
+#st.set_page_config(page_title='Proc Doc Format', 
+#                   page_icon='static/pd32.png', 
+#                   layout="wide")
 
-st.set_page_config(page_title='Proc Doc Format', 
-                   page_icon='static/pd32.png', 
-                   layout="wide")
+#Logo
 st.logo("static/pd32.png", icon_image="static/pd32.png")
 
 #Title
-st.title("Format Document")
+st.title("Proc Doc")
+st.header("Format Document")
     
 #Params doc
 st.subheader('1. Choose parameters from a template or input them')
