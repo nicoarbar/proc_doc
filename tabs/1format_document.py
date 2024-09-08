@@ -3,11 +3,6 @@ from datetime import datetime
 from src.doc_funcs import *
 from io import StringIO
 
-#Config page
-#st.set_page_config(page_title='Proc Doc Format', 
-#                   page_icon='static/pd32.png', 
-#                   layout="wide")
-
 #Logo
 st.logo("static/pd32.png", icon_image="static/pd32.png")
 
