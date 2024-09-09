@@ -22,4 +22,4 @@ with st.chat_message("user"):
         summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
         result_sum = summarizer(summa)
         if result_sum is not None:
-            st.text(result_sum['answer'])
+            st.write(result_sum['answer'])
