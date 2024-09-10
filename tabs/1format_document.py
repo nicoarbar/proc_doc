@@ -41,21 +41,30 @@ date_doc = current_date_format(datetime.now())
 action_date = st.radio('', 
                         [f'Choose current date in spanish: **{date_doc}**', 
                         'Input date from calendar', 
-                        'Input your own date format'], 
+                        'Input your own date format',
+                        'No date'], 
                         label_visibility= 'collapsed')
 if action_date == 'Input date from calendar':
     date_doc = st.date_input('Date')
 elif action_date == 'Input your own date format':
     date_doc = st.text_input('Input your own date format')
+elif action_date == 'No date':
+    date_doc = None
 else:
     date_doc = current_date_format(datetime.now())
 
-press_date = st.button('Commit date')
+if date_doc is None:
+    disable_date = True
+else:
+    disable_date = False
+
+press_date = st.button('Commit date', disabled=disable_date)
 if press_date:
     #Add date column
     date_row = {'Parameters': 'DATE', 'Value': date_doc}
     updf = pd.concat([updf, pd.DataFrame([date_row])], ignore_index=True)
-    updf = st.data_editor(data=updf, hide_index=True, num_rows="dynamic")
+if updf is not None:
+    st.dataframe(updf, hide_index = True)
 
 #Template doc
 st.subheader('3. Upload your document to format')
@@ -71,6 +80,9 @@ if doc_content is not None:
 press_process = st.button('Process the documents', disabled=disabled_process)
 
 #Actual Doc processing
+if date_doc is not None:
+    date_row = {'Parameters': 'DATE', 'Value': date_doc}
+    updf = pd.concat([updf, pd.DataFrame([date_row])], ignore_index=True)
 if press_process:
     updf['Parameters'] = updf['Parameters'].str.strip()
     updf['Value'] = updf['Value'].str.strip()
