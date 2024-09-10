@@ -1,6 +1,6 @@
 from datetime import datetime
 from src.doc_funcs import *
-from io import StringIO
+from io import StringIO, BytesIO
 
 #Logo
 st.logo("static/pd32.png", icon_image="static/pd32.png")
@@ -11,13 +11,13 @@ st.header("Format Document")
     
 #Params doc
 st.subheader('1. Choose parameters from a template or input them')
-st.info('Update the parameters (autosave)')
+st.info('The parameters are the variables in your document')
 action_params = st.radio('', ['Input parameters manually', 'Upload csv file with parameters'],
                             label_visibility= 'collapsed')
 
 if action_params == 'Input parameters manually':
-    df = pd.DataFrame(columns=['Parameters', 'Value'])
-    updf = st.data_editor(data=df, hide_index=True, num_rows="dynamic")
+    updf = pd.DataFrame(columns=['Parameters', 'Value'])
+    updf = st.data_editor(data=updf, hide_index=True, num_rows="dynamic")
     # Download template
     disabled = True
     if len(updf) > 1:
@@ -30,9 +30,9 @@ if action_params == 'Input parameters manually':
     st.download_button('Download template', csv_string, file_name='proc_doc_template.csv', disabled = disabled)
 
 else:
-    df = streamlit_upload_csv('Upload csv file', 'Update the parameters', header_cols_list=["Parameters","Value"])
-    if df is not None:
-        updf = st.data_editor(data=df, hide_index=True, num_rows="dynamic")
+    updf = streamlit_upload_csv('Upload csv file', 'Update the parameters if needed', header_cols_list=["Parameters","Value"])
+    if updf is not None:
+        updf = st.data_editor(data=updf, hide_index=True, num_rows="dynamic")
 
 #Date
 st.subheader('2. Choose a date')
@@ -45,7 +45,7 @@ action_date = st.radio('',
                         'No date'], 
                         label_visibility= 'collapsed')
 if action_date == 'Input date from calendar':
-    date_doc = st.date_input('Date')
+    date_doc = str(st.date_input('Date'))
 elif action_date == 'Input your own date format':
     date_doc = st.text_input('Input your own date format')
 elif action_date == 'No date':
@@ -69,43 +69,44 @@ if updf is not None:
 #Template doc
 st.subheader('3. Upload your document to format')
 st.info('This will be your working document')
-doc_content = streamlit_upload_docx('Upload document', 'File uploaded correctly')
+
+doc_list = st.file_uploader('Upload document', accept_multiple_files=True)
+if doc_list is not None:
+    for doc in doc_list:
+        doc_content = Document(doc)
+    if len(doc_list) > 0:
+        st.success('Files uploaded correctly')
 
 #Press Process
 st.subheader('4. Process the documents')
-st.info('Documents are ready to be processed')
+st.info('Enter a name for your document and click on Process the documents')
+
+#Name for the file
+proc_doc_filename = st.text_input('Enter name of the doc to be downloaded')
+
 disabled_process = True
-if doc_content is not None:
+if len(doc_list) > 0 and len(proc_doc_filename) > 1:
     disabled_process = False
 press_process = st.button('Process the documents', disabled=disabled_process)
 
 #Actual Doc processing
-if date_doc is not None:
-    date_row = {'Parameters': 'DATE', 'Value': date_doc}
-    updf = pd.concat([updf, pd.DataFrame([date_row])], ignore_index=True)
 if press_process:
+    if date_doc is not None:
+        date_row = {'Parameters': 'DATE', 'Value': date_doc}
+        updf = pd.concat([updf, pd.DataFrame([date_row])], ignore_index=True)
     updf['Parameters'] = updf['Parameters'].str.strip()
     updf['Value'] = updf['Value'].str.strip()
     up_dict = updf.to_dict()
+
+    # Actual replace
     output_content = proc_doc_replace(doc_content, up_dict)
-    #target_stream = StringIO()
-    #output_content.save(target_stream)
-    output_content.save('new-file-name.docx')
-else:
-    output_content = 'Click to process the documents'
 
-#Finish
-st.subheader('5. Finish')
-st.info('You can download the document or display it')
+    target_stream = BytesIO()
+    output_content.save(target_stream)
+    output_content = target_stream.getvalue()
+    # Reset the buffer's file-pointer to the beginning of the file
+    target_stream.seek(0)
+    st.info('Now you can download the document')
 
-# Download document
-disabled_down = True
-proc_doc_filename = st.text_input('Enter name of the file to be downloaded')
-if len(proc_doc_filename) > 1:
-    disabled_down = False
-st.download_button('Download document', output_content, file_name=proc_doc_filename, disabled = disabled_down)
-
-# Display document
-press_display = st.button('Display document', disabled=disabled_process)
-if press_display:
-    st.success(output_content)
+    #Downloading of the document
+    st.download_button('Download document', output_content, file_name=f'{proc_doc_filename}.docx')

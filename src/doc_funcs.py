@@ -10,13 +10,6 @@ def current_date_format(date):
     messsage = "{} de {} de {}".format(day, month, year)
     return messsage
 
-#def read_docx(file):
-#    doc = Document(file)
-#    content = []
-#    for para in doc.paragraphs:
-#        content.append(para.text)
-#    return '\n'.join(content)
-
 def streamlit_upload_csv(label, success, header_cols_list):
     doc_content = None
     doc = st.file_uploader(label)
@@ -25,20 +18,12 @@ def streamlit_upload_csv(label, success, header_cols_list):
         st.success(success)
     return doc_content
 
-def streamlit_upload_docx(label, success):
-    doc_content = None
-    doc = st.file_uploader(label)
-    if doc is not None:
-        doc_content = Document(doc)
-        st.success(success)
-    return doc_content
-
 def proc_doc_replace(doc, param):
     try:
         n_params = len(param["Parameters"])
         for i in range(0, n_params):
             doc = iterate_paragraphs(doc, param["Parameters"][i], param["Value"][i])
-            #doc = iterate_headers(doc, param["Parameters"][i], param["Value"][i])
+            doc = iterate_headers(doc, param["Parameters"][i], param["Value"][i])
     except Exception as e:
         print(f'Doc is bad formatted by: {e}')
     return doc
