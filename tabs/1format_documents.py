@@ -71,37 +71,33 @@ st.subheader('3. Upload your document to format')
 st.info('This will be your working document')
 
 doc_list = st.file_uploader('Upload document', accept_multiple_files=True)
+disabled_process = True
 if len(doc_list) > 0:
+    disabled_process = False
     st.success('Files uploaded correctly')
 
 #Press Process
 st.subheader('4. Process the documents')
-st.info('Enter a name for your document and click on Process the documents')
-
-#Name for the file
-proc_doc_filename = st.text_input('Enter name of the doc to be downloaded')
-
-disabled_process = True
-if len(doc_list) > 0 and len(proc_doc_filename) > 1:
-    disabled_process = False
-press_process = st.button('Process the documents', disabled=disabled_process)
+st.info('Ready to process the documents when you upload them')
 
 #Actual Doc processing
-if press_process:
-    #Add Date
-    if date_doc is not None:
-        date_row = {'Parameters': 'DATE', 'Value': date_doc}
-        updf = pd.concat([updf, pd.DataFrame([date_row])], ignore_index=True)
+for doc in doc_list:
+    # Button disabled with doc_list upload
+    press_process = st.button(f'Process {doc.name}', disabled=disabled_process)
+    if press_process:
+        #Add Date
+        if date_doc is not None:
+            date_row = {'Parameters': 'DATE', 'Value': date_doc}
+            updf = pd.concat([updf, pd.DataFrame([date_row])], ignore_index=True)
 
-    #Trim the parameters
-    updf['Parameters'] = updf['Parameters'].str.strip()
-    updf['Value'] = updf['Value'].str.strip()
-    
-    #Dataframe to dictionary
-    up_dict = updf.to_dict()
+        #Trim the parameters
+        updf['Parameters'] = updf['Parameters'].str.strip()
+        updf['Value'] = updf['Value'].str.strip()
+        
+        #Dataframe to dictionary
+        up_dict = updf.to_dict()
 
-    # Actual replace and doc processing
-    for index, doc in enumerate(doc_list):
+        # Actual replace and doc processing
         # Read the doc from the list
         doc_content = Document(doc)
 
@@ -114,7 +110,7 @@ if press_process:
         output_content = target_stream.getvalue()
         # Reset the buffer's file-pointer to the beginning of the file
         target_stream.seek(0)
-        st.info('Now you can download the document')
+        st.info(f'Now you can download {doc.name}')
 
         #Downloading of the document
-        st.download_button(f'Download document {index}', output_content, file_name=f'{index}_{proc_doc_filename}.docx')
+        st.download_button(f'Download {doc.name}', output_content, file_name=f'{doc.name}.docx')

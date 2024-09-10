@@ -17,7 +17,7 @@ st.logo("static/pd32.png", icon_image="static/pd32.png")
 pages = {
     "Home": [st.Page("tabs/5home.py", title="Home", icon=":material/home:")],
     "Start": [
-        st.Page("tabs/1format_document.py", title="Format Document", icon=":material/file_open:"),
+        st.Page("tabs/1format_documents.py", title="Format Document", icon=":material/file_open:"),
         st.Page("tabs/2ask_gpt.py", title="Ask Gpt", icon=":material/forum:"),
         st.Page("tabs/3indexing_documents.py", title="Index Documents", icon=":material/folder_open:")
     ],
