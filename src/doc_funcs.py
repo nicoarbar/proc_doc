@@ -1,4 +1,5 @@
 from pandas import *
+import pandas as pd
 import os
 import time
 import csv
@@ -50,10 +51,6 @@ def iterate_paragraphs_and_headers(doc, paragraphs, field, vals):
         if field in par.text:
             if len(vals) > 1:
                 par.text = par.text.replace(field, '\n'.join(vals))
-                #par.text = par.text.replace(field, vals.pop(0))
-                #for val in vals:
-                #    new_par = doc.add_paragraph()
-                #    new_par.add_run(val)
             else:
                 par.text = par.text.replace(field, vals[0])
     return doc
@@ -100,16 +97,35 @@ def read_csv_as_rows(filename):
             print(row)
 
 def read_docx(file):
+    #return Document(file)
     doc = Document(file)
     content = []
     for para in doc.paragraphs:
         content.append(para.text)
     return '\n'.join(content)
 
-def streamlit_upload(label, success, doc_func):
-    doc_content =None
+def streamlit_upload_csv(label, success, header_cols_list):
+    doc_content = None
     doc = st.file_uploader(label)
     if doc is not None:
-        doc_content = doc_func(doc)
+        doc_content = pd.read_csv(doc, names=header_cols_list)
         st.success(success)
     return doc_content
+
+def streamlit_upload_docx(label, success):
+    doc_content = None
+    doc = st.file_uploader(label)
+    if doc is not None:
+        doc_content = read_docx(doc)
+        st.success(success)
+    return doc_content
+
+def proc_doc_replace(doc, clean_dict):
+    try:
+        header = doc.sections[0].header
+        for field, vals in clean_dict.items():
+            doc = iterate_paragraphs_and_headers(doc, doc.paragraphs, field, vals)
+            doc = iterate_paragraphs_and_headers(doc, header.paragraphs, field, vals)
+    except Exception as e:
+        raise_exception(f'Doc is bad formatted by: {e}')
+    return doc
