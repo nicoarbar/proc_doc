@@ -2,7 +2,7 @@ import time
 import os
 from datetime import datetime
 from docx import Document
-from doc_funcs import * 
+from doc_funcs_old import * 
 
 # Set the current path
 current_dir = os.getcwd()

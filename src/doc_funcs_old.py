@@ -113,18 +113,27 @@ def streamlit_upload_docx(label, success):
 
 def proc_doc_replace(doc, param):
     try:
-        header = doc.sections[0].header
         n_params = len(param["Parameters"])
         for i in range(0, n_params):
             j = str(i)
-            doc = iterate_paragraphs_and_headers(doc, doc.paragraphs, param["Parameters"][j], param["Value"][j])
-            doc = iterate_paragraphs_and_headers(doc, header.paragraphs, param["Parameters"][j], param["Value"][j])
+            doc = iterate_paragraphs(doc, param["Parameters"][j], param["Value"][j])
+            doc = iterate_headers(doc, param["Parameters"][j], param["Value"][j])
     except Exception as e:
         raise_exception(f'Doc is bad formatted by: {e}')
     return doc
 
-def iterate_paragraphs_and_headers(doc, paragraphs, field, vals):
-    for par in paragraphs:
+def iterate_paragraphs(doc, field, vals):
+    for par in doc.paragraphs:
+        if field in par.text:
+            if len(vals) > 1:
+                par.text = par.text.replace(field, '\n'.join(vals))
+            else:
+                par.text = par.text.replace(field, vals[0])
+    return doc
+
+def iterate_headers(doc, field, vals):
+    header = doc.sections[0].header
+    for par in header.paragraphs:
         if field in par.text:
             if len(vals) > 1:
                 par.text = par.text.replace(field, '\n'.join(vals))

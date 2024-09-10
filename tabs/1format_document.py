@@ -67,7 +67,6 @@ press_process = st.button('Process the documents', disabled=disabled_process)
 if press_process:
     up_dict = updf.to_dict()
     output_content = proc_doc_replace(doc_content, up_dict)
-    st.write(output_content)
 else:
     output_content = 'Click to process the documents'
 
