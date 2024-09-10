@@ -46,18 +46,12 @@ def proc_doc_replace(doc, param):
 def iterate_paragraphs(doc, field, vals):
     for par in doc.paragraphs:
         if field in par.text:
-            if len(vals) > 1:
-                par.text = par.text.replace(field, '\n'.join(vals))
-            else:
-                par.text = par.text.replace(field, vals[0])
+            par.text = par.text.replace(field, vals)
     return doc
 
 def iterate_headers(doc, field, vals):
     header = doc.sections[0].header
     for par in header.paragraphs:
         if field in par.text:
-            if len(vals) > 1:
-                par.text = par.text.replace(field, '\n'.join(vals))
-            else:
-                par.text = par.text.replace(field, vals[0])
+            par.text = par.text.replace(field, vals)
     return doc

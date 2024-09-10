@@ -50,6 +50,13 @@ elif action_date == 'Input your own date format':
 else:
     date_doc = current_date_format(datetime.now())
 
+press_date = st.button('Commit date')
+if press_date:
+    #Add date column
+    date_row = {'Parameters': 'DATE', 'Value': date_doc}
+    updf = pd.concat([updf, pd.DataFrame([date_row])], ignore_index=True)
+    updf = st.data_editor(data=updf, hide_index=True, num_rows="dynamic")
+
 #Template doc
 st.subheader('3. Upload your document to format')
 st.info('This will be your working document')
@@ -65,8 +72,13 @@ press_process = st.button('Process the documents', disabled=disabled_process)
 
 #Actual Doc processing
 if press_process:
+    updf['Parameters'] = updf['Parameters'].str.strip()
+    updf['Value'] = updf['Value'].str.strip()
     up_dict = updf.to_dict()
     output_content = proc_doc_replace(doc_content, up_dict)
+    #target_stream = StringIO()
+    #output_content.save(target_stream)
+    output_content.save('new-file-name.docx')
 else:
     output_content = 'Click to process the documents'
 
