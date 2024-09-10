@@ -71,11 +71,8 @@ st.subheader('3. Upload your document to format')
 st.info('This will be your working document')
 
 doc_list = st.file_uploader('Upload document', accept_multiple_files=True)
-if doc_list is not None:
-    for doc in doc_list:
-        doc_content = Document(doc)
-    if len(doc_list) > 0:
-        st.success('Files uploaded correctly')
+if len(doc_list) > 0:
+    st.success('Files uploaded correctly')
 
 #Press Process
 st.subheader('4. Process the documents')
@@ -104,14 +101,20 @@ if press_process:
     up_dict = updf.to_dict()
 
     # Actual replace and doc processing
-    output_content = proc_doc_replace(doc_content, up_dict)
+    for index, doc in enumerate(doc_list):
+        # Read the doc from the list
+        doc_content = Document(doc)
 
-    target_stream = BytesIO()
-    output_content.save(target_stream)
-    output_content = target_stream.getvalue()
-    # Reset the buffer's file-pointer to the beginning of the file
-    target_stream.seek(0)
-    st.info('Now you can download the document')
+        # Processing
+        output_content = proc_doc_replace(doc_content, up_dict)
 
-    #Downloading of the document
-    st.download_button('Download document', output_content, file_name=f'{proc_doc_filename}.docx')
+        #Converting bytes to string
+        target_stream = BytesIO()
+        output_content.save(target_stream)
+        output_content = target_stream.getvalue()
+        # Reset the buffer's file-pointer to the beginning of the file
+        target_stream.seek(0)
+        st.info('Now you can download the document')
+
+        #Downloading of the document
+        st.download_button(f'Download document {index}', output_content, file_name=f'{index}_{proc_doc_filename}.docx')
