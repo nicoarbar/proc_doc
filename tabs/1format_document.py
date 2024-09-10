@@ -1,8 +1,6 @@
-import pandas as pd
 from datetime import datetime
 from src.doc_funcs import *
 from io import StringIO
-import json
 
 #Logo
 st.logo("static/pd32.png", icon_image="static/pd32.png")
@@ -67,9 +65,8 @@ press_process = st.button('Process the documents', disabled=disabled_process)
 
 #Actual Doc processing
 if press_process:
-    jupdf = updf.to_json()
-    output_content = json.loads(jupdf)
-    #output_content = proc_doc_replace(doc_content, jupdf)
+    up_dict = updf.to_dict()
+    output_content = proc_doc_replace(doc_content, up_dict)
     st.write(output_content)
 else:
     output_content = 'Click to process the documents'
